@@ -1,6 +1,8 @@
 // PurchaseManager.js
 var Geschaeft = require('./Geschaeft.js');
+var Zahler = require('./Zahler.js');
 var geschaeft = new Geschaeft();
+var zahler = new Zahler();
 
 var PurchaseManager = function () { };
 
@@ -52,6 +54,19 @@ PurchaseManager.prototype.insertGeschaeftEntity = function(oGeschaeft, callback)
             callback(oError, aResult);
         } else {
             callback(oError, aResult);
+        }
+    });
+};
+
+/**
+ * Zahler GetEntitySet
+ */
+PurchaseManager.prototype.getZahlerEntitySet = function(callback){
+    zahler.getZahlerEntitySet(function (oError, aResults, oConnection) {
+        if (oError === null) {
+            callback(oError, aResults);
+        } else {
+            callback(oError, aResults);
         }
     });
 };

@@ -98,6 +98,22 @@ middleware.post('/GeschaeftEntity', function (req, res) {
 
 });
 
+/**
+ * Zahler Get Entity Set
+ */
+middleware.get('/ZahlerEntitySet', function (req, res) {
+
+    //get Zahler entity set
+    pm.getZahlerEntitySet(function (oError, aResults) {
+        if (oError === null) {
+            res.send({ 'results': aResults });
+        } else {
+            res.send(oError);
+        }
+    });
+
+});
+
 
 //port listener
 middleware.listen(3000, function () {
