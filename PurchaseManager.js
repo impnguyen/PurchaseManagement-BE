@@ -1,8 +1,11 @@
 // PurchaseManager.js
 var Geschaeft = require('./Geschaeft.js');
 var Zahler = require('./Zahler.js');
+var Einkauf = require('./Einkauf.js');
+
 var geschaeft = new Geschaeft();
 var zahler = new Zahler();
+var einkauf = new Einkauf();
 
 var PurchaseManager = function () { };
 
@@ -49,11 +52,11 @@ PurchaseManager.prototype.deleteGeschaeftEntity = function(sGes_id, callback){
  * Geschaeft InsertEntity
  */
 PurchaseManager.prototype.insertGeschaeftEntity = function(oGeschaeft, callback){
-    geschaeft.insertGeschaeftEntity(oGeschaeft, function (oError, aResult, oConnection) {
+    geschaeft.insertGeschaeftEntity(oGeschaeft, function (oError, oResult, oConnection) {
         if (oError === null) {
-            callback(oError, aResult);
+            callback(oError, oResult);
         } else {
-            callback(oError, aResult);
+            callback(oError, oResult);
         }
     });
 };
@@ -67,6 +70,19 @@ PurchaseManager.prototype.getZahlerEntitySet = function(callback){
             callback(oError, aResults);
         } else {
             callback(oError, aResults);
+        }
+    });
+};
+
+/**
+ * Einkauf InsertEntity
+ */
+PurchaseManager.prototype.insertEinkaufEntity = function(oEinkauf, callback){
+    einkauf.insertEinkaufEntity(oEinkauf, function (oError, oResult, oConnection) {
+        if (oError === null) {
+            callback(oError, oResult);
+        } else {
+            callback(oError, oResult);
         }
     });
 };

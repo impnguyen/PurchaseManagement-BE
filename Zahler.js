@@ -16,8 +16,6 @@ connection.connect();
  * GetEntitySet
  */
 Zahler.prototype.getZahlerEntitySet = function (callback) {
-
-
     connection.query('SELECT * from pm.Zahler', function (oError, aResults, oFields) {
         if (oError) {
             callback(oError, aResults);

@@ -88,9 +88,9 @@ middleware.delete('/GeschaeftEntity/:ges_id', function (req, res) {
  */
 middleware.post('/GeschaeftEntity', function (req, res) {
     //get geschaefte entity
-    pm.insertGeschaeftEntity(req.body, function (oError, aResult) {
+    pm.insertGeschaeftEntity(req.body, function (oError, oResult) {
         if (oError === null) {
-            res.send({ 'result': aResult });
+            res.send({ 'result': oResult });
         } else {
             res.send(oError);
         }
@@ -107,6 +107,21 @@ middleware.get('/ZahlerEntitySet', function (req, res) {
     pm.getZahlerEntitySet(function (oError, aResults) {
         if (oError === null) {
             res.send({ 'results': aResults });
+        } else {
+            res.send(oError);
+        }
+    });
+
+});
+
+/**
+ * Einkauf: insert entity
+ */
+middleware.post('/EinkaufEntity', function (req, res) {
+    //get einkauf entity
+    pm.insertEinkaufEntity(req.body, function (oError, oResult) {
+        if (oError === null) {
+            res.send({ 'result': oResult });
         } else {
             res.send(oError);
         }
