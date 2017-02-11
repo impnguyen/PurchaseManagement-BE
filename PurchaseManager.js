@@ -13,7 +13,7 @@ var PurchaseManager = function () { };
  * Geschaeft GetEntitySet
  */
 PurchaseManager.prototype.getGeschaeftEntitySet = function(callback){
-    geschaeft.getGeschaeftEntitySet(function (oError, aResults, oConnection) {
+    geschaeft.getGeschaeftEntitySet(function (oError, aResults) {
         if (oError === null) {
             callback(oError, aResults);
         } else {
@@ -26,7 +26,7 @@ PurchaseManager.prototype.getGeschaeftEntitySet = function(callback){
  * Geschaeft GetEntity
  */
 PurchaseManager.prototype.getGeschaeftEntity = function(sGes_id, callback){
-    geschaeft.getGeschaeftEntity(sGes_id, function (oError, aResult, oConnection) {
+    geschaeft.getGeschaeftEntity(sGes_id, function (oError, aResult) {
         if (oError === null) {
             callback(oError, aResult);
         } else {
@@ -39,7 +39,7 @@ PurchaseManager.prototype.getGeschaeftEntity = function(sGes_id, callback){
  * Geschaeft DeleteEntity
  */
 PurchaseManager.prototype.deleteGeschaeftEntity = function(sGes_id, callback){
-    geschaeft.deleteGeschaeftEntity(sGes_id, function (oError, aResult, oConnection) {
+    geschaeft.deleteGeschaeftEntity(sGes_id, function (oError, aResult) {
         if (oError === null) {
             callback(oError, aResult);
         } else {
@@ -52,7 +52,7 @@ PurchaseManager.prototype.deleteGeschaeftEntity = function(sGes_id, callback){
  * Geschaeft InsertEntity
  */
 PurchaseManager.prototype.insertGeschaeftEntity = function(oGeschaeft, callback){
-    geschaeft.insertGeschaeftEntity(oGeschaeft, function (oError, oResult, oConnection) {
+    geschaeft.insertGeschaeftEntity(oGeschaeft, function (oError, oResult) {
         if (oError === null) {
             callback(oError, oResult);
         } else {
@@ -65,7 +65,20 @@ PurchaseManager.prototype.insertGeschaeftEntity = function(oGeschaeft, callback)
  * Zahler GetEntitySet
  */
 PurchaseManager.prototype.getZahlerEntitySet = function(callback){
-    zahler.getZahlerEntitySet(function (oError, aResults, oConnection) {
+    zahler.getZahlerEntitySet(function (oError, aResults) {
+        if (oError === null) {
+            callback(oError, aResults);
+        } else {
+            callback(oError, aResults);
+        }
+    });
+};
+
+/**
+ * Einkauf GetEntitySet
+ */
+PurchaseManager.prototype.getEinkaufEntitySet = function(callback){
+    einkauf.getEinkaufEntitySet(function (oError, aResults) {
         if (oError === null) {
             callback(oError, aResults);
         } else {
@@ -78,11 +91,24 @@ PurchaseManager.prototype.getZahlerEntitySet = function(callback){
  * Einkauf InsertEntity
  */
 PurchaseManager.prototype.insertEinkaufEntity = function(oEinkauf, callback){
-    einkauf.insertEinkaufEntity(oEinkauf, function (oError, oResult, oConnection) {
+    einkauf.insertEinkaufEntity(oEinkauf, function (oError, oResult) {
         if (oError === null) {
             callback(oError, oResult);
         } else {
             callback(oError, oResult);
+        }
+    });
+};
+
+/**
+ * Einkauf DeleteEntity
+ */
+PurchaseManager.prototype.deleteEinkaufEntity = function(sEink_id, callback){
+    einkauf.deleteEinkaufEntity(sEink_id, function (oError, aResult) {
+        if (oError === null) {
+            callback(oError, aResult);
+        } else {
+            callback(oError);
         }
     });
 };

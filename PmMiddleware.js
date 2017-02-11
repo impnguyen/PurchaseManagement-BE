@@ -99,6 +99,39 @@ middleware.post('/GeschaeftEntity', function (req, res) {
 });
 
 /**
+ * Einkauf Get Entity Set
+ */
+middleware.get('/EinkaufEntitySet', function (req, res) {
+
+    //get Einkauf entity set
+    pm.getEinkaufEntitySet(function (oError, aResults) {
+        if (oError === null) {
+            res.send({ 'results': aResults });
+        } else {
+            res.send(oError);
+        }
+    });
+
+});
+
+/**
+ * Einkauf: del entity
+ */
+middleware.delete('/EinkaufEntity/:eink_id', function (req, res) {
+
+    //del geschaefte entity 
+    pm.deleteEinkaufEntity(req.params.eink_id, function (oError, aResult) {
+        if (oError === null) {
+            res.status(204);
+            res.send('Entity deleted');
+        } else {
+            res.send(oError);
+        }
+    });
+
+});
+
+/**
  * Zahler Get Entity Set
  */
 middleware.get('/ZahlerEntitySet', function (req, res) {
