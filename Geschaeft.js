@@ -9,6 +9,7 @@ var connection = mysql.createConnection({
 });
 
 
+
 //init db connection
 connection.connect();
 
@@ -43,16 +44,29 @@ Geschaeft.prototype.getGeschaeftEntity = function (sGes_id, callback) {
 
 /**
  * DeleteEntity
+ * @todo darf nur gelöscht werden, wenn keine einträge von einkauf mit geschaeft verbunden sind
  */
 Geschaeft.prototype.deleteGeschaeftEntity = function (sGes_id, callback) {
 
-    connection.query('DELETE from pm.Geschaeft where ges_id = ' + sGes_id, function (oError, aResult, oFields) {
+    connection.query('SELECT * from pm.Einkauf where ges_id = ' + sGes_id, function (oError, aResult, oFields) {
         if (oError) {
             callback(oError, aResult);
         } else {
-            callback(oError, aResult);
+            if (aResult.length === 0) {
+                connection.query('DELETE from pm.Geschaeft where ges_id = ' + sGes_id, function (oError, aResult, oFields) {
+                    if (oError) {
+                        callback(oError, aResult);
+                    } else {
+                        callback(oError, aResult);
+                    }
+                });
+            } else {
+                callback({errorMessage:'Es sind noch Einkäufe mit diesem Geschäft verknüpft.'});
+            }
         }
     });
+
+
 }
 
 /**
