@@ -88,6 +88,19 @@ PurchaseManager.prototype.getEinkaufEntitySet = function(callback){
 };
 
 /**
+ * Einkauf GetEntitySet in date range (with startDate and endDate)
+ */
+PurchaseManager.prototype.getEinkaufEntitySetInRange = function(startDate, endDate, callback){
+    einkauf.getEinkaufEntitySetInRange(startDate, endDate, function (oError, aResults) {
+        if (oError === null) {
+            callback(oError, aResults);
+        } else {
+            callback(oError, aResults);
+        }
+    });
+};
+
+/**
  * Einkauf InsertEntity
  */
 PurchaseManager.prototype.insertEinkaufEntity = function(oEinkauf, callback){
