@@ -193,7 +193,7 @@ middleware.post('/EinkaufEntity', function (req, res) {
     //get einkauf entity
     pm.insertEinkaufEntity(req.body, function (oError, oResult) {
         if (oError === null) {
-            res.send({ 'result': oResult });
+            res.send({ 'insertedId': oResult });
         } else {
             res.send(oError);
         }
@@ -203,8 +203,8 @@ middleware.post('/EinkaufEntity', function (req, res) {
 
 
 //port listener
-middleware.listen(3001, function () {
-    console.log('pm middleware listening on port 3001');
+middleware.listen(3000, function () {
+    console.log('pm middleware listening on port 3000');
 });
 
 

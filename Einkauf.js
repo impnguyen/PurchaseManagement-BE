@@ -109,6 +109,11 @@ Einkauf.prototype.insertEinkaufEntity = function (oEinkauf, callback) {
 
     connection.query("INSERT into pm.Einkauf SET ?", oEinkauf, function (oError, aResult, oFields) {
 
+        var oInsertedObj = {
+            "eink_id": aResult.insertId
+        };
+        
+
         if (oError) {
             callback(oError, aResult);
         } else {
@@ -123,7 +128,7 @@ Einkauf.prototype.insertEinkaufEntity = function (oEinkauf, callback) {
                         } else {
                             aResult[0].ges_besuche = parseInt(aResult[0].ges_besuche) + parseInt(1);
                             connection.query('UPDATE pm.Geschaeft SET ges_besuche=' + aResult[0].ges_besuche + ' where ges_id=' + aResult[0].ges_id, function (oError, aResult, oFields) { console.log(oError) });
-                            callback(oError, aResult[0]);
+                            callback(oError, oInsertedObj);
                         }
                     });
                 }
