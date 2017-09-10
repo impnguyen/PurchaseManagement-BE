@@ -55,5 +55,5 @@ module.exports = function(grunt) {
 
   // task(s).
   grunt.registerTask("build_local", ["clean", "copy", "replace:dbHost"]);
-  grunt.registerTask("build_local", ["clean", "copy"]);
+  grunt.registerTask("jenk_build", ["clean", "copy"]);
 };
