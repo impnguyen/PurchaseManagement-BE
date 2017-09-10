@@ -54,5 +54,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // task(s).
-  grunt.registerTask("build", ["clean", "copy", "replace:dbHost"]);
+  grunt.registerTask("build_local", ["clean", "copy", "replace:dbHost"]);
+  grunt.registerTask("build_local", ["clean", "copy"]);
 };

@@ -103,7 +103,7 @@ PurchaseManager.prototype.getEinkaufEntitySetInRange = function(startDate, endDa
 /**
  * Einkauf GetEntitySet by geschaeft
  */
-PurchaseManager.prototype.getEinkaufEntitySetByGeschaeft = function(gesId){
+PurchaseManager.prototype.getEinkaufEntitySetByGeschaeft = function(gesId, callback){
     einkauf.getEinkaufEntitySetByGeschaeft(gesId, function(oError, aResults){
         if (oError === null) {
             callback(oError, aResults);

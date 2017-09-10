@@ -117,16 +117,16 @@ middleware.get('/EinkaufEntitySet', function (req, res) {
 /**
  * Einkauf GetEntitySet by Geschaeft
  */
-middleware.get('/EinkaufEntitySet', function (req, res) {
+middleware.get('/EinkaufEntitySet/byGeschaeft/:gesid', function (req, res) {
     
-        // //get Einkauf entity set
-        // pm.getEinkaufEntitySet(function (oError, aResults) {
-        //     if (oError === null) {
-        //         res.send({ 'results': aResults });
-        //     } else {
-        //         res.send(oError);
-        //     }
-        // });
+        //get Einkauf entity set
+        pm.getEinkaufEntitySetByGeschaeft(req.params.gesid, function (oError, aResults) {
+            if (oError === null) {
+                res.send({ 'results': aResults });
+            } else {
+                res.send(oError);
+            }
+        });
     
 });
 

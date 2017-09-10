@@ -41,7 +41,7 @@ Einkauf.prototype.getEinkaufEntitySetInRange = function (startDate, endDate, cal
 /**
  * GetEntitySet by geschaeft id
  */
-Einkauf.prototype.getEinkaufEntitySetByGeschaeft = (gesId)=>{
+Einkauf.prototype.getEinkaufEntitySetByGeschaeft = (gesId, callback)=>{
     connection.query('SELECT * from pm.Einkauf where ges_id = "' + gesId + '"', function (oError, aResults, oFields) {
         if (oError) {
             callback(oError, aResults);
