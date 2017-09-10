@@ -101,6 +101,19 @@ PurchaseManager.prototype.getEinkaufEntitySetInRange = function(startDate, endDa
 };
 
 /**
+ * Einkauf GetEntitySet by geschaeft
+ */
+PurchaseManager.prototype.getEinkaufEntitySetByGeschaeft = function(gesId){
+    einkauf.getEinkaufEntitySetByGeschaeft(gesId, function(oError, aResults){
+        if (oError === null) {
+            callback(oError, aResults);
+        } else {
+            callback(oError, aResults);
+        }
+    })
+};
+
+/**
  * Einkauf InsertEntity
  */
 PurchaseManager.prototype.insertEinkaufEntity = function(oEinkauf, callback){

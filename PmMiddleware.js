@@ -115,6 +115,22 @@ middleware.get('/EinkaufEntitySet', function (req, res) {
 });
 
 /**
+ * Einkauf GetEntitySet by Geschaeft
+ */
+middleware.get('/EinkaufEntitySet', function (req, res) {
+    
+        // //get Einkauf entity set
+        // pm.getEinkaufEntitySet(function (oError, aResults) {
+        //     if (oError === null) {
+        //         res.send({ 'results': aResults });
+        //     } else {
+        //         res.send(oError);
+        //     }
+        // });
+    
+});
+
+/**
  * Einkauf Get Entity Set (optional. between two dates)
  */
 middleware.post('/EinkaufEntitySet', function (req, res) {

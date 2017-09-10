@@ -25,8 +25,11 @@
   },
   "homepage": "https://github.com/impnguyen/PurchaseManagement-BE#readme",
   "devDependencies": {
+    "body-parser": "^1.18.0",
     "express": "^4.15.4",
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-text-replace": "^0.4.0",
     "mysql": "^2.14.1"
   }
 }
