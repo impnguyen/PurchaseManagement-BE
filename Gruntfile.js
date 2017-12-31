@@ -65,7 +65,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ["<%= dir.src %>/*.js"],
-        tasks: ["build_local", "copy:firebase", "execute"],
+        tasks: ["build_local", "copy:firebase"],
         options: {
           livereload: 35730
         }
@@ -90,8 +90,13 @@ module.exports = function(grunt) {
   // task(s).
   grunt.registerTask("build_local", ["clean", "copy:main", "replace:dbHost"]);
   grunt.registerTask("jenk_build", ["clean", "copy:main"]);
+
+  // local tasks
+  // first run grunt local; second run grunt execute in a second terminal 
   grunt.registerTask("local", function() {
-    grunt.task.run("execute");
+    grunt.task.run("build_local");
+    grunt.task.run("copy:firebase");
     grunt.task.run("watch");
+   
   });
 };

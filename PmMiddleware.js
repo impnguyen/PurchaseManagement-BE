@@ -128,28 +128,30 @@ middleware.post("/GeschaeftEntity", function(req, res) {
  * Einkauf Get Entity Set
  */
 middleware.get("/EinkaufEntitySet", function(req, res) {
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
 
-  //verify token to firebase authentication backend
-  admin
-    .auth()
-    .verifyIdToken(req.get("Authorization"))
-    .then(function(decodedToken) {
-      var uid = decodedToken.uid;//check against custom backend user id
-      console.log('erfolgreich');
-      console.log(uid);
-    })
-    .catch(function(error) {
-      console.log(error);//error handling d
-    });
-
-  //get Einkauf entity set
-  pm.getEinkaufEntitySet(function(oError, aResults) {
-    if (oError === null) {
-      res.send({ results: aResults });
-    } else {
-      res.send(oError);
-    }
-  });
+        //get Einkauf entity set
+        pm.getEinkaufEntitySet(function(oError, aResults) {
+          if (oError === null) {
+            res.send({ results: aResults });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function(oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
 });
 
 /**
@@ -226,14 +228,30 @@ middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
  * Zahler Get Entity Set
  */
 middleware.get("/ZahlerEntitySet", function(req, res) {
-  //get Zahler entity set
-  pm.getZahlerEntitySet(function(oError, aResults) {
-    if (oError === null) {
-      res.send({ results: aResults });
-    } else {
-      res.send(oError);
-    }
-  });
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get Zahler entity set
+        pm.getZahlerEntitySet(function(oError, aResults) {
+          if (oError === null) {
+            res.send({ results: aResults });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function(oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
 });
 
 /**
@@ -254,6 +272,9 @@ middleware.post("/EinkaufEntity", function(req, res) {
 middleware.listen(3000, function() {
   console.log("pm middleware listening on port 3000");
 });
+
+
+
 
 /**
  * util functions
