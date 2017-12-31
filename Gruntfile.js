@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     //constant
     dir: {
       build: "build",
-      src: '.'
+      src: "."
     },
 
     //replace task
@@ -25,7 +25,8 @@ module.exports = function(grunt) {
 
     // copy task
     copy: {
-      main: {//productive task
+      main: {
+        //productive task
         files: [
           // flattens results to a single level
           {
@@ -43,19 +44,18 @@ module.exports = function(grunt) {
           }
         ]
       },
-      firebase: {//dev env
+      firebase: {
+        //dev env
         files: [
           {
             expand: true,
-            cwd: '<%=dir.src %>/',
-            src: [
-              "firebase/**"
-            ],
+            cwd: "<%=dir.src %>/",
+            src: ["firebase/**"],
             dest: "<%=dir.build %>",
             filter: "isFile"
           }
         ]
-      }, 
+      }
     },
 
     //clean task
@@ -64,15 +64,13 @@ module.exports = function(grunt) {
     // watch task option
     watch: {
       scripts: {
-        files: [
-          "<%= dir.src %>/*.js"
-        ],
+        files: ["<%= dir.src %>/*.js"],
         tasks: ["build_local", "copy:firebase", "execute"],
         options: {
-          livereload: 35730,
+          livereload: 35730
         }
       }
-    }, 
+    },
 
     // execute node script task
     execute: {
@@ -87,14 +85,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks('grunt-execute');
+  grunt.loadNpmTasks("grunt-execute");
 
   // task(s).
-      main_local: {
   grunt.registerTask("build_local", ["clean", "copy:main", "replace:dbHost"]);
   grunt.registerTask("jenk_build", ["clean", "copy:main"]);
-  grunt.registerTask('local', function () {
-    grunt.task.run('execute');
-    grunt.task.run('watch');
-	});
+  grunt.registerTask("local", function() {
+    grunt.task.run("execute");
+    grunt.task.run("watch");
+  });
 };
