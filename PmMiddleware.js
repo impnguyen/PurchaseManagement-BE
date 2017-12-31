@@ -2,10 +2,36 @@
 var express = require('express');
 var bodyParser = require('body-parser')
 var Pm = require('./PurchaseManager.js');
+var admin = require("firebase-admin");
+var serviceAccount = require("./firebase/purchasemanager-adf6a-firebase-adminsdk-bb0m0-d90ec7a2bc.json");
 
 var pm = new Pm();
 var middleware = express();
 
+// initialize firebase admin sdk: https://firebase.google.com/docs/auth/admin/manage-users?authuser=0
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://purchasemanager-adf6a.firebaseio.com"
+});
+
+// function listAllUsers(nextPageToken) {
+//     // List batch of users, 1000 at a time.
+//     admin.auth().listUsers(1000, nextPageToken)
+//       .then(function(listUsersResult) {
+//         listUsersResult.users.forEach(function(userRecord) {
+//           console.log("user", userRecord.toJSON());
+//         });
+//         if (listUsersResult.pageToken) {
+//           // List next batch of users.
+//           listAllUsers(listUsersResult.pageToken);
+//         }
+//       })
+//       .catch(function(error) {
+//         console.log("Error listing users:", error);
+//       });
+//   }
+//   // Start listing users from the beginning, 1000 at a time.
+//   listAllUsers();
 
 
 //configure express
@@ -17,15 +43,15 @@ middleware.use(function (req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
-    //res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader("Access-Control-Allow-Headers", "Authorization", "Origin", "Accept", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers");
 
     // Pass to next layer of middleware
     next();
@@ -102,6 +128,7 @@ middleware.post('/GeschaeftEntity', function (req, res) {
  * Einkauf Get Entity Set
  */
 middleware.get('/EinkaufEntitySet', function (req, res) {
+    console.log(req.get('Authorization'));//get id token s
 
     //get Einkauf entity set
     pm.getEinkaufEntitySet(function (oError, aResults) {
