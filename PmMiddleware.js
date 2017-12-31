@@ -54,13 +54,7 @@ middleware.use(function(req, res, next) {
   // Request headers you wish to allow
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Authorization",
-    "Origin",
-    "Accept",
-    "X-Requested-With",
-    "Content-Type",
-    "Access-Control-Request-Method",
-    "Access-Control-Request-Headers"
+    "Authorization, Content-Type, Origin, Accept, X-Requested-With, Content-Type,  Access-Control-Request-Method, Access-Control-Request-Headers"
   );
 
   // Pass to next layer of middleware
@@ -175,37 +169,53 @@ middleware.get("/EinkaufEntitySet/byGeschaeft/:gesid", function(req, res) {
  * Einkauf Get Entity Set (optional. between two dates)
  */
 middleware.post("/EinkaufEntitySet", function(req, res) {
-  //check if start- and endDate exists
-  if (req.body.startDate !== undefined && req.body.endDate) {
-    //check date format
-    if (
-      dateFormatIsValid(req.body.startDate) &&
-      dateFormatIsValid(req.body.endDate)
-    ) {
-      //get Einkauf entity set
-      pm.getEinkaufEntitySetInRange(
-        req.body.startDate,
-        req.body.endDate,
-        function(oError, aResults) {
-          if (oError === null) {
-            res.send({ results: aResults });
-          } else {
-            res.send(oError);
-          }
-        }
-      );
-    } else {
-      res.send({ error: "no valid date (check for yyyy-MM-dd)" });
-    }
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
   } else {
-    //get Einkauf entity set
-    pm.getEinkaufEntitySet(function(oError, aResults) {
-      if (oError === null) {
-        res.send({ results: aResults });
-      } else {
-        res.send(oError);
-      }
-    });
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //check if start- and endDate exists
+        if (req.body.startDate !== undefined && req.body.endDate) {
+          //check date format
+          if (
+            dateFormatIsValid(req.body.startDate) &&
+            dateFormatIsValid(req.body.endDate)
+          ) {
+            //get Einkauf entity set
+            pm.getEinkaufEntitySetInRange(
+              req.body.startDate,
+              req.body.endDate,
+              function(oError, aResults) {
+                if (oError === null) {
+                  res.send({ results: aResults });
+                } else {
+                  res.send(oError);
+                }
+              }
+            );
+          } else {
+            res.send({ error: "no valid date (check for yyyy-MM-dd)" });
+          }
+        } else {
+          //get Einkauf entity set
+          pm.getEinkaufEntitySet(function(oError, aResults) {
+            if (oError === null) {
+              res.send({ results: aResults });
+            } else {
+              res.send(oError);
+            }
+          });
+        }
+      })
+      .catch(function(oError) {
+        res.send("Not authenticated. Please Login!");
+      });
   }
 });
 
@@ -272,9 +282,6 @@ middleware.post("/EinkaufEntity", function(req, res) {
 middleware.listen(3000, function() {
   console.log("pm middleware listening on port 3000");
 });
-
-
-
 
 /**
  * util functions
