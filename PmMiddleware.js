@@ -223,15 +223,31 @@ middleware.post("/EinkaufEntitySet", function(req, res) {
  * Einkauf: del entity
  */
 middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
-  //del geschaefte entity
-  pm.deleteEinkaufEntity(req.params.eink_id, function(oError, aResult) {
-    if (oError === null) {
-      res.status(204);
-      res.send("Entity deleted");
-    } else {
-      res.send(oError);
-    }
-  });
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //del geschaefte entity
+        pm.deleteEinkaufEntity(req.params.eink_id, function(oError, aResult) {
+          if (oError === null) {
+            res.status(204);
+            res.send("Entity deleted");
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function(oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
 });
 
 /**
