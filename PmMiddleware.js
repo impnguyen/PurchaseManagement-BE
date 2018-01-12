@@ -37,7 +37,7 @@ admin.initializeApp({
 middleware.use(bodyParser.json());
 
 // middleware options
-middleware.use(function(req, res, next) {
+middleware.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader("Access-Control-Allow-Origin", "*");
 
@@ -64,64 +64,7 @@ middleware.use(function(req, res, next) {
 /**
  * Geschaeft Get Entity Set
  */
-middleware.get("/GeschaeftEntitySet", function(req, res) {
-  //get geschaefte entity set
-  pm.getGeschaeftEntitySet(function(oError, aResults) {
-    if (oError === null) {
-      res.send({ results: aResults });
-    } else {
-      res.send(oError);
-    }
-  });
-});
-
-/**
- * Geschaeft: get entity
- */
-middleware.get("/GeschaeftEntity/:ges_id", function(req, res) {
-  //get geschaefte entity
-  pm.getGeschaeftEntity(req.params.ges_id, function(oError, aResult) {
-    if (oError === null) {
-      res.send({ result: aResult });
-    } else {
-      res.send(oError);
-    }
-  });
-});
-
-/**
- * Geschaeft: del entity
- */
-middleware.delete("/GeschaeftEntity/:ges_id", function(req, res) {
-  //del geschaefte entity
-  pm.deleteGeschaeftEntity(req.params.ges_id, function(oError, aResult) {
-    if (oError === null) {
-      res.status(204);
-      res.send("Entity deleted");
-    } else {
-      res.send(oError);
-    }
-  });
-});
-
-/**
- * Geschaeft: insert entity
- */
-middleware.post("/GeschaeftEntity", function(req, res) {
-  //get geschaefte entity
-  pm.insertGeschaeftEntity(req.body, function(oError, oResult) {
-    if (oError === null) {
-      res.send({ result: oResult });
-    } else {
-      res.send(oError);
-    }
-  });
-});
-
-/**
- * Einkauf Get Entity Set
- */
-middleware.get("/EinkaufEntitySet", function(req, res) {
+middleware.get("/GeschaeftEntitySet", function (req, res) {
   if (req.get("Authorization") === undefined) {
     res.send("No authorization header. Please Login!");
   } else {
@@ -129,20 +72,155 @@ middleware.get("/EinkaufEntitySet", function(req, res) {
     admin
       .auth()
       .verifyIdToken(req.get("Authorization"))
-      .then(function(decodedToken) {
+      .then(function (decodedToken) {
         var uid = decodedToken.uid; //TODO: check against custom backend user id
         //console.log(uid);
 
-        //get Einkauf entity set
-        pm.getEinkaufEntitySet(function(oError, aResults) {
+        //get geschaefte entity set
+        pm.getGeschaeftEntitySet(function (oError, aResults) {
           if (oError === null) {
-            res.send({ results: aResults });
+            res.send({
+              results: aResults
+            });
           } else {
             res.send(oError);
           }
         });
       })
-      .catch(function(oError) {
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
+});
+
+/**
+ * Geschaeft: get entity
+ */
+middleware.get("/GeschaeftEntity/:ges_id", function (req, res) {
+
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get geschaefte entity
+        pm.getGeschaeftEntity(req.params.ges_id, function (oError, aResult) {
+          if (oError === null) {
+            res.send({
+              result: aResult
+            });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
+
+
+});
+
+/**
+ * Geschaeft: del entity
+ */
+middleware.delete("/GeschaeftEntity/:ges_id", function (req, res) {
+
+
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //del geschaefte entity
+        pm.deleteGeschaeftEntity(req.params.ges_id, function (oError, aResult) {
+          if (oError === null) {
+            res.status(204);
+            res.send("Entity deleted");
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
+});
+
+/**
+ * Geschaeft: insert entity
+ */
+middleware.post("/GeschaeftEntity", function (req, res) {
+
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get geschaefte entity
+        pm.insertGeschaeftEntity(req.body, function (oError, oResult) {
+          if (oError === null) {
+            res.send({
+              result: oResult
+            });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
+});
+
+/**
+ * Einkauf Get Entity Set
+ */
+middleware.get("/EinkaufEntitySet", function (req, res) {
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get Einkauf entity set
+        pm.getEinkaufEntitySet(function (oError, aResults) {
+          if (oError === null) {
+            res.send({
+              results: aResults
+            });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
         res.send("Not authenticated. Please Login!");
       });
   }
@@ -151,24 +229,8 @@ middleware.get("/EinkaufEntitySet", function(req, res) {
 /**
  * Einkauf GetEntitySet by Geschaeft
  */
-middleware.get("/EinkaufEntitySet/byGeschaeft/:gesid", function(req, res) {
-  //get Einkauf entity set
-  pm.getEinkaufEntitySetByGeschaeft(req.params.gesid, function(
-    oError,
-    aResults
-  ) {
-    if (oError === null) {
-      res.send({ results: aResults });
-    } else {
-      res.send(oError);
-    }
-  });
-});
+middleware.get("/EinkaufEntitySet/byGeschaeft/:gesid", function (req, res) {
 
-/**
- * Einkauf Get Entity Set (optional. between two dates)
- */
-middleware.post("/EinkaufEntitySet", function(req, res) {
   if (req.get("Authorization") === undefined) {
     res.send("No authorization header. Please Login!");
   } else {
@@ -176,7 +238,43 @@ middleware.post("/EinkaufEntitySet", function(req, res) {
     admin
       .auth()
       .verifyIdToken(req.get("Authorization"))
-      .then(function(decodedToken) {
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get Einkauf entity set
+        pm.getEinkaufEntitySetByGeschaeft(req.params.gesid, function (
+          oError,
+          aResults
+        ) {
+          if (oError === null) {
+            res.send({
+              results: aResults
+            });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
+
+});
+
+/**
+ * Einkauf Get Entity Set (optional. between two dates)
+ */
+middleware.post("/EinkaufEntitySet", function (req, res) {
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
         var uid = decodedToken.uid; //TODO: check against custom backend user id
         //console.log(uid);
 
@@ -191,29 +289,35 @@ middleware.post("/EinkaufEntitySet", function(req, res) {
             pm.getEinkaufEntitySetInRange(
               req.body.startDate,
               req.body.endDate,
-              function(oError, aResults) {
+              function (oError, aResults) {
                 if (oError === null) {
-                  res.send({ results: aResults });
+                  res.send({
+                    results: aResults
+                  });
                 } else {
                   res.send(oError);
                 }
               }
             );
           } else {
-            res.send({ error: "no valid date (check for yyyy-MM-dd)" });
+            res.send({
+              error: "no valid date (check for yyyy-MM-dd)"
+            });
           }
         } else {
           //get Einkauf entity set
-          pm.getEinkaufEntitySet(function(oError, aResults) {
+          pm.getEinkaufEntitySet(function (oError, aResults) {
             if (oError === null) {
-              res.send({ results: aResults });
+              res.send({
+                results: aResults
+              });
             } else {
               res.send(oError);
             }
           });
         }
       })
-      .catch(function(oError) {
+      .catch(function (oError) {
         res.send("Not authenticated. Please Login!");
       });
   }
@@ -222,7 +326,7 @@ middleware.post("/EinkaufEntitySet", function(req, res) {
 /**
  * Einkauf: del entity
  */
-middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
+middleware.delete("/EinkaufEntity/:eink_id", function (req, res) {
   if (req.get("Authorization") === undefined) {
     res.send("No authorization header. Please Login!");
   } else {
@@ -230,12 +334,12 @@ middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
     admin
       .auth()
       .verifyIdToken(req.get("Authorization"))
-      .then(function(decodedToken) {
+      .then(function (decodedToken) {
         var uid = decodedToken.uid; //TODO: check against custom backend user id
         //console.log(uid);
 
         //del geschaefte entity
-        pm.deleteEinkaufEntity(req.params.eink_id, function(oError, aResult) {
+        pm.deleteEinkaufEntity(req.params.eink_id, function (oError, aResult) {
           if (oError === null) {
             res.status(204);
             res.send("Entity deleted");
@@ -244,7 +348,7 @@ middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
           }
         });
       })
-      .catch(function(oError) {
+      .catch(function (oError) {
         res.send("Not authenticated. Please Login!");
       });
   }
@@ -253,7 +357,7 @@ middleware.delete("/EinkaufEntity/:eink_id", function(req, res) {
 /**
  * Zahler Get Entity Set
  */
-middleware.get("/ZahlerEntitySet", function(req, res) {
+middleware.get("/ZahlerEntitySet", function (req, res) {
   if (req.get("Authorization") === undefined) {
     res.send("No authorization header. Please Login!");
   } else {
@@ -261,20 +365,22 @@ middleware.get("/ZahlerEntitySet", function(req, res) {
     admin
       .auth()
       .verifyIdToken(req.get("Authorization"))
-      .then(function(decodedToken) {
+      .then(function (decodedToken) {
         var uid = decodedToken.uid; //TODO: check against custom backend user id
         //console.log(uid);
 
         //get Zahler entity set
-        pm.getZahlerEntitySet(function(oError, aResults) {
+        pm.getZahlerEntitySet(function (oError, aResults) {
           if (oError === null) {
-            res.send({ results: aResults });
+            res.send({
+              results: aResults
+            });
           } else {
             res.send(oError);
           }
         });
       })
-      .catch(function(oError) {
+      .catch(function (oError) {
         res.send("Not authenticated. Please Login!");
       });
   }
@@ -283,19 +389,38 @@ middleware.get("/ZahlerEntitySet", function(req, res) {
 /**
  * Einkauf: insert entity
  */
-middleware.post("/EinkaufEntity", function(req, res) {
-  //get einkauf entity
-  pm.insertEinkaufEntity(req.body, function(oError, oResult) {
-    if (oError === null) {
-      res.send({ insertedId: oResult });
-    } else {
-      res.send(oError);
-    }
-  });
+middleware.post("/EinkaufEntity", function (req, res) {
+
+  if (req.get("Authorization") === undefined) {
+    res.send("No authorization header. Please Login!");
+  } else {
+    //verify token to firebase authentication backend
+    admin
+      .auth()
+      .verifyIdToken(req.get("Authorization"))
+      .then(function (decodedToken) {
+        var uid = decodedToken.uid; //TODO: check against custom backend user id
+        //console.log(uid);
+
+        //get einkauf entity
+        pm.insertEinkaufEntity(req.body, function (oError, oResult) {
+          if (oError === null) {
+            res.send({
+              insertedId: oResult
+            });
+          } else {
+            res.send(oError);
+          }
+        });
+      })
+      .catch(function (oError) {
+        res.send("Not authenticated. Please Login!");
+      });
+  }
 });
 
 //port listener
-middleware.listen(3000, function() {
+middleware.listen(3000, function () {
   console.log("pm middleware listening on port 3000");
 });
 
