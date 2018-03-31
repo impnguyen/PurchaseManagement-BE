@@ -10,14 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/impnguyen/PurchaseManagement-BE.git"
   },
-  "keywords": [
-    "pm",
-    "purchase",
-    "manager",
-    "purchase",
-    "manager",
-    "backend"
-  ],
+  "keywords": ["pm", "purchase", "manager", "purchase", "manager", "backend"],
   "author": "Manh Phuoc Nguyen",
   "license": "MIT",
   "bugs": {
@@ -26,17 +19,17 @@
   "homepage": "https://github.com/impnguyen/PurchaseManagement-BE#readme",
   "devDependencies": {
     "body-parser": "^1.18.0",
-    "express": "^4.15.4",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-execute": "^0.2.2",
-    "grunt-text-replace": "^0.4.0",
-    "mysql": "^2.14.1"
+    "grunt-text-replace": "^0.4.0"
   },
   "dependencies": {
     "firebase": "^4.8.1",
-    "firebase-admin": "^5.6.0"
+    "firebase-admin": "^5.6.0",
+    "mysql": "^2.14.1",
+    "express": "^4.15.4"
   }
 }
