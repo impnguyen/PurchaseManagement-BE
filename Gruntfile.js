@@ -77,6 +77,11 @@ module.exports = function(grunt) {
       target: {
         src: ["<%=dir.build %>/PmMiddleware.js"]
       }
+    },
+
+    // lint
+    eslint: {
+      target: ["**/*.js", "!node_modules/**/*"]
     }
   });
 
@@ -86,17 +91,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-execute");
+  grunt.loadNpmTasks("grunt-eslint");
 
   // task(s).
   grunt.registerTask("build_local", ["clean", "copy:main", "replace:dbHost"]);
   grunt.registerTask("jenk_build", ["clean", "copy:main"]);
 
   // local tasks
-  // first run grunt local; second run grunt execute in a second terminal 
+  // first run grunt local; second run grunt execute in a second terminal
   grunt.registerTask("local", function() {
     grunt.task.run("build_local");
     grunt.task.run("copy:firebase");
     grunt.task.run("watch");
-   
   });
 };
